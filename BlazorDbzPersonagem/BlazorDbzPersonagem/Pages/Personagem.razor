@@ -1,0 +1,33 @@
+@page "/personagem"
+@inject DragonBallService dbzService
+
+<h3>Informações do Personagem</h3>
+
+@if (personagem == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    <div>
+        <p><strong>Nome:</strong> @personagem.Name</p>
+        <p><strong>Planeta de Origem:</strong> @personagem.OriginPlanet?.Name</p>
+
+        <p><strong>Transformações:</strong></p>
+        <ul>
+            @foreach (var t in personagem.Transformations)
+            {
+                <li>@t.Name</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    private Personagem personagem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        personagem = await dbzService.GetPersonagemAsync(1);
+    }
+}
